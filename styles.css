@@ -1,0 +1,15 @@
+.container {
+    text-align: center;
+    padding: 2rem;
+}
+
+h1 {
+    margin: 1rem auto;
+    color: brown;
+}
+
+#TurkeyHunt {
+    margin: 1rem auto;
+    border: 2px solid brown;
+    max-width: 680px;
+}

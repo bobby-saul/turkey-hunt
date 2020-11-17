@@ -1,15 +1,48 @@
+body {
+    padding: 0;
+    margin: 0;
+    background: #cb997e;
+}
 .container {
     text-align: center;
-    padding: 2rem;
+    padding: 0;
+    margin: 0;
 }
-
-h1 {
-    margin: 1rem auto;
-    color: brown;
-}
-
 #TurkeyHunt {
-    margin: 1rem auto;
-    border: 2px solid brown;
-    max-width: 680px;
+    margin: auto;
+    max-height: 100%;
+    max-width: 100%;
+}
+.game {
+    position: relative;
+    margin: auto;
+}
+.environment {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+.sky {
+    position: relative;
+    height: 30%;
+    width: 100%;
+    background-color: #8ecae6;
+    overflow: hidden;
+}
+.cloud {
+    position: absolute;
+    background-color: #caf0f8;
+    border-radius: 50%;
+    border: 1px solid #ade8f4;
+    opacity: 70%;
+    transform: translateY(-100%)
+}
+.ground {
+    position: relative;
+    height: 70%;
+    width: 100%;
+    background-color: #b7b7a4;
+}
+.grass {
+    background-color: #a5a58d;
 }

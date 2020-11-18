@@ -46,3 +46,19 @@ body {
 .grass {
     background-color: #a5a58d;
 }
+.blade {
+    position: absolute;
+    transform: translateY(-100%);
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    border-bottom: 12px solid ;
+}
+.blade-0 {
+    border-bottom-color: #6b705c;
+}
+.blade-1 {
+    border-bottom-color: #006466;
+}
+.blade-2 {
+    border-bottom-color: #588157;
+}

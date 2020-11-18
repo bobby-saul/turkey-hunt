@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from "react";
 import Cloud from "./Cloud";
 
+const CLOUD_MIN_TIME = 3000;
+const CLOUD_MAX_TIME = 30000 - CLOUD_MIN_TIME;
+
 const Sky = () => {
     var firstClouds = [];
     var cloudAmount = Math.floor(Math.random() * 10);
@@ -13,13 +16,12 @@ const Sky = () => {
     const [clouds, setClouds] = useState(firstClouds);
     const [cloudid, setCloudid] = useState(cloudAmount);
     useEffect(() => {
-        const cloudWait = setInterval(() => {
-            setTimeout(() => {
-                addCloud();
-            }, Math.floor(Math.random() * 30000))
-        }, 3000);
-        return () => clearInterval(cloudWait);
-    });
+            const time = Math.floor(Math.random() * CLOUD_MAX_TIME) + CLOUD_MIN_TIME;
+            var addNewTimer = setTimeout(() => {
+                addCloud()
+            }, time);
+            return () => clearInterval(addNewTimer);
+    },[cloudid, clouds]);
     function addCloud() {
         var cloud = {
             id: cloudid,

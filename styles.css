@@ -1,7 +1,9 @@
 body {
+    font-family: 'Open Sans', sans-serif;
     padding: 0;
     margin: 0;
-    background: #cb997e;
+    color: #eee;
+    background-color:  #333;
 }
 .container {
     text-align: center;
@@ -16,6 +18,7 @@ body {
 .game {
     position: relative;
     margin: auto;
+    overflow: hidden;
 }
 .environment {
     position: relative;
@@ -43,22 +46,78 @@ body {
     width: 100%;
     background-color: #b7b7a4;
 }
-.grass {
-    background-color: #a5a58d;
+.ground-tiles {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
 }
-.blade {
-    position: absolute;
+.ground-row {
+    height: 32px;
+    width: 100%;
+    white-space: nowrap;
+}
+.ground-column {
+    display: inline-block;
+    height: 100%;
+    width: 32px;
+}
+.ground-0 {
+    background: url('./images/grass_tile.png')
+}
+.ground-1 {
+    background: url('./images/grass_tile2.png')
+}
+.ground-2 {
+    background: url('./images/grass_tile3.png')
+}
+.ground-3 {
+    background: url('./images/grass_tile3.png')
+}
+.ground-asset {
     transform: translateY(-100%);
-    border-left: 1px solid transparent;
-    border-right: 1px solid transparent;
-    border-bottom: 12px solid ;
+    position: absolute;
+    background-size: contain;
 }
-.blade-0 {
-    border-bottom-color: #6b705c;
+.ground-asset-0 {
+    height: 64px;
+    width: 64px;
+    background-image: url('./images/rock.png');
 }
-.blade-1 {
-    border-bottom-color: #006466;
+.ground-asset-1 {
+    height: 102px;
+    width: 102px;
+    background-image: url('./images/tree.png');
 }
-.blade-2 {
-    border-bottom-color: #588157;
+.ground-asset-2 {
+    height: 102px;
+    width: 102px;
+    background-image: url('./images/tree2.png');
+}
+.turkey-container {
+    position: absolute;
+    top: 30%;
+    height: 70%;
+    left: 0;
+    width: 100%;
+}
+.turkey-control {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.turkey {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 32px;
+    height: 32px;
+    transform: scale(1.5) translateY(-100%);
+    background-image: url("./images/turkey_towards.gif");
+    background-size: 100%;
+}
+.turkey.left {
+    transform: scaleX(-1.5) translateY(-100%);
+}
+.turkey.away {
+    background-image: url("./images/turkey_away.gif");
 }

@@ -77,20 +77,62 @@ body {
     transform: translateY(-100%);
     position: absolute;
     background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: bottom;
+}
+.ground-asset-0.x-small {
+    height: 6%;
+    width: 4%;
+}
+.ground-asset-0.small {
+    height: 9%;
+    width: 6%;
+}
+.ground-asset-0.medium {
+    height: 12%;
+    width: 8%;
+}
+.ground-asset-0.large {
+    height: 15%;
+    width: 10%;
+}
+.ground-asset-0.x-large {
+    height: 17%;
+    width: 12%;
 }
 .ground-asset-0 {
-    height: 64px;
-    width: 64px;
     background-image: url('./images/rock.png');
 }
+.ground-asset-1.x-small,
+.ground-asset-2.x-small {
+    height: 9%;
+    width: 6%;
+}
+.ground-asset-1.small,
+.ground-asset-2.small {
+    height: 12%;
+    width: 8%;
+}
+.ground-asset-1.medium,
+.ground-asset-2.medium {
+    height: 14%;
+    width: 10%;
+}
+.ground-asset-1.large,
+.ground-asset-2.large {
+    height: 17%;
+    width: 12%;
+}
+.ground-asset-1.x-large,
+.ground-asset-2.x-large {
+    height: 20%;
+    width: 14%;
+}
 .ground-asset-1 {
-    height: 102px;
-    width: 102px;
     background-image: url('./images/tree.png');
 }
 .ground-asset-2 {
-    height: 102px;
-    width: 102px;
     background-image: url('./images/tree2.png');
 }
 .turkey-container {
@@ -109,11 +151,33 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 32px;
-    height: 32px;
+    transition: 0.25s linear;
     transform: scale(1.5) translateY(-100%);
-    background-image: url("./images/turkey_towards.gif");
-    background-size: 100%;
+    background-image: url("./images/turkey_towards.gif");;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position-x: center;
+    background-position-y: bottom;
+}
+.turkey.x-small {
+    height: 3%;
+    width: 2%;
+}
+.turkey.small {
+    height: 4.5%;
+    width: 3%;
+}
+.turkey.medium {
+    height: 6%;
+    width: 4%;
+}
+.turkey.large {
+    height: 7.5%;
+    width: 5%;
+}
+.turkey.x-large {
+    height: 9%;
+    width: 6%;
 }
 .turkey.left {
     transform: scaleX(-1.5) translateY(-100%);

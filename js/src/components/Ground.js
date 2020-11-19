@@ -27,8 +27,20 @@ const Ground = ({size}) => {
         for (var asset = 0; asset < assetAmount; asset++) {
             var y = Math.floor(Math.random() * 100);
             var x = Math.floor(Math.random() * 100);
+            var classes = "ground-asset ground-asset-" + Math.floor(Math.random() * ASSET_TYPES);
+            if (y < 20) {
+                classes += " x-small";
+            } else if (y < 40) {
+                classes += " small";
+            } else if (y < 60) {
+                classes += " medium";
+            } else if (y < 80) {
+                classes += " large";
+            } else {
+                classes += " x-large";
+            }
             assets.push(
-                <div key={"ground-asset-" + asset} className={"ground-asset ground-asset-" + Math.floor(Math.random() * ASSET_TYPES)} style={{
+                <div key={"ground-asset-" + asset} className={classes} style={{
                     top: y + "%",
                     left: x + "%",
                     zIndex: y

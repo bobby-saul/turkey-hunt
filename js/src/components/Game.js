@@ -25,7 +25,7 @@ const Game = () => {
     }}>
       <div className="environment">
         <Sky/>
-        <Ground size={size}/>
+        <Ground/>
         <TurkeyControl/>
       </div>
       <div className="scoreboard">

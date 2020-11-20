@@ -130,10 +130,10 @@ body {
     width: 14%;
 }
 .ground-asset-1 {
-    background-image: url('./images/tree.png');
+    background-image: url('./images/tree_fall.png');
 }
 .ground-asset-2 {
-    background-image: url('./images/tree2.png');
+    background-image: url('./images/tree_fall2.png');
 }
 .turkey-container {
     position: absolute;

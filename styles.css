@@ -34,11 +34,21 @@ body {
 }
 .cloud {
     position: absolute;
-    background-color: #caf0f8;
-    border-radius: 50%;
-    border: 1px solid #ade8f4;
+    background-image: url('./images/cloud.png');
+    background-position: center;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
     opacity: 70%;
     transform: translateY(-100%)
+}
+.horizon {
+    position: absolute;
+    height: 8%;
+    width: 100%;
+    background-image: url('./images/horizon_dark.png');
+    background-size: contain;
+    top: 0;
+    transform: translateY(-100%);
 }
 .ground {
     position: relative;
@@ -130,8 +140,11 @@ body {
     background-position-y: bottom;
 }
 .turkey.left {
-    transform: translateY(-100%);
+    transform: scaleX(-1) translateY(-100%);
 }
 .turkey.away {
     background-image: url("./images/turkey_away.gif");
+}
+.turkey.dead {
+    background-image: url("./images/turkey_death.gif");
 }

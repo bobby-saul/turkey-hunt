@@ -51,6 +51,7 @@ const Ground = () => {
     }, []);
     return (
         <div className="ground">
+            <div className="horizon"></div>
             <div className="ground-tiles">
                 {tiles}
             </div>

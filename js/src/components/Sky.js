@@ -20,7 +20,7 @@ const Sky = () => {
             var addNewTimer = setTimeout(() => {
                 addCloud()
             }, time);
-            return () => clearInterval(addNewTimer);
+            return () => clearTimeout(addNewTimer);
     },[cloudid, clouds]);
     function addCloud() {
         var cloud = {

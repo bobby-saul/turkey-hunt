@@ -4,6 +4,9 @@ import Ground from "./Ground";
 import TurkeyControl from "./Turkey-Control";
 import Scoreboard from "./Scoreboard";
 
+const RELOAD_TIME = 350;
+const BASE_AMMO = 3;
+
 function getSize() {
   const maxSize = 9680;
   const width  = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -12,7 +15,11 @@ function getSize() {
 }
 
 const Game = () => {
-  const [size, setSize] = useState(getSize())
+  const [size, setSize] = useState(getSize());
+  const [ammo, setAmmo] = useState(BASE_AMMO);
+  const [maxAmmo, setMaxAmmo] = useState(BASE_AMMO);
+  const [reloadTime, setReloadTime] = useState(RELOAD_TIME);
+
   useEffect(() => {
     window.addEventListener('resize', () => {
       setSize(getSize());
@@ -27,9 +34,9 @@ const Game = () => {
       <div className="environment">
         <Sky/>
         <Ground/>
-        <TurkeyControl/>
+        <TurkeyControl ammo={ammo}/>
       </div>
-      <Scoreboard/>
+      <Scoreboard ammo={ammo} setAmmo={setAmmo} maxAmmo={maxAmmo} reloadTime={reloadTime}/>
     </div>
   )
 };

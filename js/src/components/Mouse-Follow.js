@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 
 const FIRING_TIME = 100;
 
-const MouseFollow = () => {
+const MouseFollow = ({ammo, fire}) => {
     const [mousePosition, setMousePosition] = useState([0, 0, 0, 0, 0, 1]);
     const [firing, setFiring] = useState(false);
 
@@ -22,13 +22,21 @@ const MouseFollow = () => {
             }
             setMousePosition([x2, y2, angle, flip]);
         }
-        window.onclick = () => {
-            setFiring(true);
-            setTimeout(() => {
-                setFiring(false);
-            }, FIRING_TIME);
-        }
     }, []);
+    useEffect(() => {
+        window.onclick = () => {
+            if (ammo > 0) {
+                setFiring(true);
+                fire();
+                setTimeout(() => {
+                    setFiring(false);
+                }, FIRING_TIME);
+            }
+        }
+        return () => {
+            window.onclick = null;
+        }
+    });
 
     return (
         <div className="mouse-container">

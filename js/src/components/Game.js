@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import Sky from "./Sky";
 import Ground from "./Ground";
 import TurkeyControl from "./Turkey-Control";
+import Scoreboard from "./Scoreboard";
 
 function getSize() {
   const maxSize = 9680;
@@ -28,12 +29,7 @@ const Game = () => {
         <Ground/>
         <TurkeyControl/>
       </div>
-      <div className="scoreboard">
-        <div className="timer"></div>
-        <div className="score"></div>
-        <div className="ammo"></div>
-        <div className="settings"></div>
-      </div>
+      <Scoreboard/>
     </div>
   )
 };

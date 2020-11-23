@@ -19,6 +19,7 @@ body {
     position: relative;
     margin: auto;
     overflow: hidden;
+    cursor: none;
 }
 .environment {
     position: relative;
@@ -31,6 +32,8 @@ body {
     width: 100%;
     background-color: #8ecae6;
     overflow: hidden;
+    background-image: url('./images/sky.png');
+    background-size: auto 100%;
 }
 .cloud {
     position: absolute;
@@ -147,4 +150,43 @@ body {
 }
 .turkey.dead {
     background-image: url("./images/turkey_death.gif");
+}
+.scoreboard {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+.mouse-container {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    z-index: 110;
+    pointer-events: none;
+}
+.gun {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    background-image: url('./images/shotgun.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    width: 25%;
+    height: 25%;
+}
+.gun.firing {
+    background-image: url('./images/shotgun_blast.png');
+}
+.target {
+    position: absolute;
+    width: 2%;
+    height: 2%;
+    border: 1px solid #ff0000;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
 }

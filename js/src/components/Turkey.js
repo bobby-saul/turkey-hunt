@@ -6,7 +6,7 @@ const MIN_MOVES = 5;
 const MAX_MOVES = 10 - MIN_MOVES;
 const MIN_SPEED_TIME = 25;
 const MAX_SPEED_TIME = 100 - MIN_SPEED_TIME;
-const DEATH_ANIMATION_TIME = 500;
+const DEATH_ANIMATION_TIME = 450;
 
 const TurkeyControl = ({id, removeTurkey}) => {
     const [isDead, setIsDead] = useState(false);

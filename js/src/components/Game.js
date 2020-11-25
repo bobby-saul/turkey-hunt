@@ -16,6 +16,7 @@ function getSize() {
 
 const Game = () => {
   const [size, setSize] = useState(getSize());
+  const [score, setScore] = useState(0);
   const [ammo, setAmmo] = useState(BASE_AMMO);
   const [maxAmmo, setMaxAmmo] = useState(BASE_AMMO);
   const [reloadTime, setReloadTime] = useState(RELOAD_TIME);
@@ -34,9 +35,9 @@ const Game = () => {
       <div className="environment">
         <Sky/>
         <Ground/>
-        <TurkeyControl ammo={ammo}/>
+        <TurkeyControl score={score} setScore={setScore} ammo={ammo} setAmmo={setAmmo}/>
       </div>
-      <Scoreboard ammo={ammo} setAmmo={setAmmo} maxAmmo={maxAmmo} reloadTime={reloadTime}/>
+      <Scoreboard score={score} setScore={setScore} ammo={ammo} setAmmo={setAmmo} maxAmmo={maxAmmo} reloadTime={reloadTime}/>
     </div>
   )
 };

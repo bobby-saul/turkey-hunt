@@ -8,7 +8,7 @@ const MIN_SPEED_TIME = 25;
 const MAX_SPEED_TIME = 100 - MIN_SPEED_TIME;
 const DEATH_ANIMATION_TIME = 450;
 
-const TurkeyControl = ({id, removeTurkey, ammo}) => {
+const TurkeyControl = ({id, removeTurkey, score, setScore, ammo, setAmmo}) => {
     const [isDead, setIsDead] = useState(false);
     const [speed, setSpeed] = useState(Math.floor(Math.random() * MAX_SPEED_TIME) + MIN_SPEED_TIME);
     const [moves, setMoves] = useState(Math.floor(Math.random() * MAX_MOVES) + MIN_MOVES);
@@ -75,10 +75,13 @@ const TurkeyControl = ({id, removeTurkey, ammo}) => {
         setMoves(moves - 1);
     }
 
-    function deadTurkey() {
+    function deadTurkey(e) {
         if (ammo > 0) {
+            e.stopPropagation();
             setIsDead(true);
             setclasses("turkey dead");
+            setScore(score + 100);
+            setAmmo(ammo - 1);
         }
     }
 

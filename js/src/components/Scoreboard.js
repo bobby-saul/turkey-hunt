@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import Ammo from "./Ammo";
 import MouseFollow from "./Mouse-Follow";
 
-const Scoreboard = ({ammo, setAmmo, maxAmmo, reloadTime}) => {
+const Scoreboard = ({score, setScore, ammo, setAmmo, maxAmmo, reloadTime}) => {
     function reload() {
         setTimeout(() => {
             setAmmo(maxAmmo);
@@ -15,11 +15,11 @@ const Scoreboard = ({ammo, setAmmo, maxAmmo, reloadTime}) => {
 
     return (
         <div className="scoreboard">
-            <MouseFollow fire={fire} ammo={ammo}/>
-            <Ammo ammo={ammo} maxAmmo={maxAmmo} reload={reload}/>
-            <div className="timer"></div>
             <div className="round"></div>
-            <div className="score"></div>
+            <div className="timer"></div>
+            <MouseFollow fire={fire} ammo={ammo} score={score} setScore={setScore}/>
+            <Ammo ammo={ammo} maxAmmo={maxAmmo} reload={reload}/>
+            <div className="score">SCORE: {score}</div>
             <div className="settings"></div>
         </div>
     )

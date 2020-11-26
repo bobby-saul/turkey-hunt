@@ -36,7 +36,12 @@ const Sky = () => {
     return (
         <div className="sky">
             {clouds.map((cloud) => 
-                <Cloud key={cloud.id} cloudId={cloud.id} firstLoad={cloud.firstLoad} removeCloud={removeCloud}/>
+                <Cloud
+                    key={cloud.id}
+                    cloudId={cloud.id}
+                    firstLoad={cloud.firstLoad}
+                    removeCloud={removeCloud}
+                />
             )}
         </div>
     )

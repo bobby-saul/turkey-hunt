@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 
 const FIRING_TIME = 100;
 
-const MouseFollow = ({ammo, fire, score, setScore}) => {
+const MouseFollow = ({ammo, fire, score, setScore, time}) => {
     const [mousePosition, setMousePosition] = useState([0, 0, 0, 0, 0, 1]);
     const [firing, setFiring] = useState(false);
 
@@ -30,7 +30,7 @@ const MouseFollow = ({ammo, fire, score, setScore}) => {
     }, []);
     useEffect(() => {
         window.onclick = () => {
-            if (ammo > 0) {
+            if (ammo > 0 && time > 0) {
                 setFiring(true);
                 fire();
                 setTimeout(() => {

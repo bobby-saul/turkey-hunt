@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import Turkey from "./Turkey";
 
-const TurkeyControl = ({score, setScore, ammo, setAmmo}) => {
+const TurkeyControl = ({score, setScore, time, ammo, setAmmo}) => {
     const [turkeys, setTurkeys] = useState([]);
 
     useEffect(() => {
@@ -28,7 +28,16 @@ const TurkeyControl = ({score, setScore, ammo, setAmmo}) => {
         <div className="turkey-container">
             <div className="turkey-control">
                 {turkeys.map((turkey) => 
-                    <Turkey key={turkey.id} id={turkey.id} removeTurkey={removeTurkey} ammo={ammo} setAmmo={setAmmo} score={score} setScore={setScore}/>
+                    <Turkey
+                    key={turkey.id}
+                    id={turkey.id}
+                    removeTurkey={removeTurkey}
+                    ammo={ammo}
+                    setAmmo={setAmmo}
+                    score={score}
+                    setScore={setScore}
+                    time={time}
+                />
                 )}
             </div>
         </div>

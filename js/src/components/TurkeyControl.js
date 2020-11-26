@@ -1,18 +1,28 @@
 import React, {useState, useEffect} from "react";
 import Turkey from "./Turkey";
 
-const TurkeyControl = ({score, setScore, time, ammo, setAmmo}) => {
+const MAX_TURKEYS = 6;
+
+const TurkeyControl = ({round, score, setScore, time, ammo, setAmmo}) => {
     const [turkeys, setTurkeys] = useState([]);
 
     useEffect(() => {
-        // For testing pressing "Enter" will add a new turkey.
-        window.onkeypress = (e) => {
-            if (e.keyCode === 13) {
+        if (round > 0 && time > 0 && turkeys.length < MAX_TURKEYS) {
+            // Randomly add turkeys if in round.
+            // TODO - Fix this to be more smooth
+            var compareValue = (turkeys.length * round) / MAX_TURKEYS;
+            if (Math.random() > compareValue) {
                 addTurkey();
             }
         }
-        return () => { window.onkeypress = null };
-    });
+    }, [round, time, turkeys]);
+
+    useEffect(() => {
+        // Clear turkeys at end of round.
+        if (time < 1) {
+            clearTurkeys();
+        }
+    }, [time]);
 
     function addTurkey() {
         setTurkeys(turkeys.concat({
@@ -22,6 +32,10 @@ const TurkeyControl = ({score, setScore, time, ammo, setAmmo}) => {
 
     function removeTurkey(id) {
         setTurkeys(turkeys.filter((turkey) => turkey.id !== id));
+    }
+
+    function clearTurkeys() {
+        setTurkeys([]);
     }
 
     return (

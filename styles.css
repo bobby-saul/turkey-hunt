@@ -10,6 +10,29 @@ body {
     padding: 0;
     margin: 0;
 }
+button {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: none;
+    padding: 0.25rem 1rem;
+    border-radius: 0.5rem;
+    background-color: #df7126;
+    color: #fff;
+    box-shadow: 1px 1px #ab3334;
+}
+button:hover,
+button:focus,
+button:active {
+    background-color: #ac3232;
+}
+.flex {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+.flex > div {
+    width: 50%;
+}
 #TurkeyHunt {
     margin: auto;
     max-height: 100%;
@@ -20,6 +43,42 @@ body {
     margin: auto;
     overflow: hidden;
     cursor: none;
+}
+.title {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.modal {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 110;
+    background: #333333aa;
+    padding: 5%;
+}
+.modal-container {
+    height: 100%;
+    background: #333;
+    padding: 2%;
+    overflow-y: scroll;
+}
+.instructions {
+    text-align: left;
+    padding: 0 1rem;
+}
+.high-scores {
+    padding: 0 1rem;
+}
+.high-score-name {
+    float: left;
+    margin-left: 0.5rem;
+}
+.high-score-number {
+    float: right;
 }
 .environment {
     position: relative;

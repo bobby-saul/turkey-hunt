@@ -1,8 +1,8 @@
 import React, {useEffect} from "react";
 import Ammo from "./Ammo";
-import MouseFollow from "./Mouse-Follow";
+import MouseFollow from "./MouseFollow";
 
-const Scoreboard = ({gameOver, time, setTime, round, setRound, score, setScore, ammo, setAmmo, maxAmmo, reloadTime}) => {
+const Scoreboard = ({time, setTime, round, score, setScore, ammo, setAmmo, maxAmmo, reloadTime}) => {
     useEffect(() => {
         if (time > 0) {
             const countDown = setTimeout(() => {

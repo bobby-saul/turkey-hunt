@@ -8,7 +8,7 @@ import NextRoundModal from "./NextRoundModal";
 import GameOverModal from "./GameOverModal";
 
 const MAX_SIZE = 9680;
-const RELOAD_TIME = 350;
+const RELOAD_TIME = 500;
 const BASE_AMMO = 3;
 const ROUND_TIME = 60 / 2;
 
@@ -27,6 +27,7 @@ const Game = () => {
   const [maxAmmo, setMaxAmmo] = useState(BASE_AMMO);
   const [reloadTime, setReloadTime] = useState(RELOAD_TIME);
   const [isReloading, setIsReloading] = useState(false);
+  const [playSound, setPlaySound] = useState(true);
   const [modal, setModal] = useState(<StartModal startGame={startGame}/>);
 
   useEffect(() => {
@@ -41,18 +42,27 @@ const Game = () => {
         reload();
       }
     };
-  }, [window]);
+  }, [window, time, playSound]);
 
   useEffect(() => {
     if (round === 0) {
       // Start Modal
-      setModal(<StartModal startGame={startGame}/>);
+      setModal(<StartModal
+        startGame={startGame}
+      />);
     } else if (time < 1 && nextRound()) {
       // Next Round
-      setModal(<NextRoundModal round={round} score={score} startRound={startRound} />);
+      setModal(<NextRoundModal
+        round={round}
+        score={score}
+        startRound={startRound}
+      />);
     } else if (time < 1) {
       // End Game
-      setModal(<GameOverModal score={score} startGame={startGame}/>);
+      setModal(<GameOverModal
+        score={score}
+        startGame={startGame}
+      />);
     } else {
       setModal(null);
     }
@@ -76,11 +86,18 @@ const Game = () => {
   }
 
   function reload() {
-    setIsReloading(true);
-    setTimeout(() => {
-      setAmmo(maxAmmo);
-      setIsReloading(false);
-    }, reloadTime);
+    if (time > 0) {
+      setIsReloading(true);
+      if (playSound) {
+        var sound = new Audio("./sounds/reload.mp3");
+        sound.currentTime = 0;
+        sound.play();
+      }
+      setTimeout(() => {
+        setAmmo(maxAmmo);
+        setIsReloading(false);
+      }, reloadTime);
+    }
   }
 
   return (
@@ -95,6 +112,7 @@ const Game = () => {
           round={round}
         />
         <TurkeyControl
+          playSound={playSound}
           round={round}
           score={score}
           setScore={setScore}
@@ -104,6 +122,8 @@ const Game = () => {
         />
       </div>
       <Scoreboard
+        setPlaySound={setPlaySound}
+        playSound={playSound}
         round={round}
         setRound={setRound}
         time={time}

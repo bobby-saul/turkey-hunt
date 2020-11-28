@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 
 const FIRING_TIME = 100;
 
-const MouseFollow = ({ammo, fire, score, setScore, time, isReloading}) => {
+const MouseFollow = ({ammo, fire, score, setScore, time, isReloading, playSound}) => {
     const [mousePosition, setMousePosition] = useState([0, 0, 0, 0, 0, 1]);
     const [firing, setFiring] = useState(false);
     const [oldAmmo, setOldAmmo] = useState(ammo);
@@ -34,9 +34,15 @@ const MouseFollow = ({ammo, fire, score, setScore, time, isReloading}) => {
     // On click remove ammo.
     useEffect(() => {
         window.onclick = () => {
-            if (ammo > 0 && time > 0) {
-                fire();
-                setScore(score - 10);
+            if (time > 0) {
+                if (ammo > 0) {
+                    fire();
+                    setScore(score - 10);
+                } else if (playSound) {
+                    var sound = new Audio("./sounds/empty-shot.mp3");
+                    sound.currentTime = 0;
+                    sound.play();
+                }
             }
         }
     }, [window, ammo, time, score]);
@@ -46,6 +52,11 @@ const MouseFollow = ({ammo, fire, score, setScore, time, isReloading}) => {
         if (ammo !== oldAmmo) {
             setOldAmmo(ammo);
             if (ammo < oldAmmo) {
+                if (playSound) {
+                    var sound = new Audio("./sounds/shotgun.mp3");
+                    sound.currentTime = 0;
+                    sound.play();
+                }
                 setFiring(true);
                 var firingAnimation = setTimeout(() => {
                     setFiring(false);

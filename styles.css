@@ -322,3 +322,19 @@ input {
     margin-right: 1%;
     margin-bottom: 1%;
 }
+.sound-setting {
+    position: absolute;
+    z-index: 115;
+    top: 0;
+    right: 1%;
+    height: 5%;
+    width: 5%;
+}
+.sound-setting svg {
+    fill: #007800;
+    height: 100%;
+    width: 100%;
+}
+.sound-setting.off svg {
+    fill: #ab3334;
+}

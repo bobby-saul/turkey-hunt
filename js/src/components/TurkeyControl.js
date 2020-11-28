@@ -3,7 +3,7 @@ import Turkey from "./Turkey";
 
 const MAX_TURKEYS = 5;
 
-const TurkeyControl = ({round, score, setScore, time, ammo, setAmmo}) => {
+const TurkeyControl = ({round, score, setScore, time, ammo, setAmmo, playSound}) => {
     const [turkeys, setTurkeys] = useState([]);
     const [oldTime, setOldTime] = useState(time);
     const [maxTurkeys, setMaxTurkeys] = useState(MAX_TURKEYS);
@@ -20,8 +20,15 @@ const TurkeyControl = ({round, score, setScore, time, ammo, setAmmo}) => {
             } else if (time < 1) {
                 setTurkeys([]);
             }
+
+            // Random turkey calls.
+            if (playSound && time % 2 === 0 && turkeys.length * Math.random() > 0.8) {
+                var sound = new Audio("./sounds/turkey.mp3");
+                sound.currentTime = 0;
+                sound.play();
+            }
         }
-    }, [round, time, oldTime, turkeys]);
+    }, [round, time, oldTime, turkeys, playSound]);
 
     useEffect(() => {
         setMaxTurkeys(Math.max((MAX_TURKEYS - round + 1), 2));

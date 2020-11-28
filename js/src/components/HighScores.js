@@ -1,63 +1,66 @@
-import React from "react";
+import React, {useEffect, useRef, useState} from "react";
 
-var highScores = [
-    {
-        name: "BOB",
-        score: 1000
-    },
-    {
-        name: "JOE",
-        score: 900
-    },
-    {
-        name: "TIM",
-        score: 800
-    },
-    {
-        name: "TOM",
-        score: 700
-    },
-    {
-        name: "SUE",
-        score: 600
-    },
-    {
-        name: "BILL",
-        score: 500
-    },
-    {
-        name: "ALEX",
-        score: 400
-    },
-    {
-        name: "FOO",
-        score: 300
-    },
-    {
-        name: "BAR",
-        score: 200
-    },
-    {
-        name: "ITRIED",
-        score: 100
+function saveHS(highscore) {
+    localStorage.setItem("highscores", JSON.stringify(highscore));
+}
+
+function getSavedHS() {
+    var value = localStorage.getItem("highscores");
+    if (value) {
+        var hs = JSON.parse(value);
+        hs.forEach(item => {
+            delete item.new;
+        });
+        return hs;
     }
-]
+    return [];
+}
 
-// TODO - Add cookies for high score
+const HighScores = ({score}) => {
+    const [name, setName] = useState("");
+    const [highScores, setHighScores] = useState(getHighScores());
+    const inputRef = useRef(null);
 
-const HighScores = () => {
-    highScores = highScores.sort((a, b) => {
-        return b.score - a.score;
-    }).slice(0, 10);
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+    });
+
+    function getHighScores() {
+        var hs = getSavedHS();
+        if (score) {
+            hs.push({
+                name: name,
+                score: score,
+                new: true
+            });
+        }
+        hs = hs.sort((a, b) => {
+            return b.score - a.score;
+        }).slice(0, 10);
+        return hs;
+    }
+
+    function nameChange(e, index) {
+        var value = e.target.value.substring(0, 12).toUpperCase()
+        highScores[index].name = value;
+        setName(value);
+        saveHS(highScores);
+    }
 
     return (
         <div className="high-scores">
             <div className="title">High Scores</div>
             <ol>
                 {highScores.map((highScore, index) => {
+                    var nameObj = <span className="high-score-name">{highScore.name}</span>;
+                    if (highScore.new) {
+                        nameObj = <input className="high-score-name" value={name} size="14" ref={inputRef} onInput={(e) => { nameChange(e, index) }}/>;
+                    }
                     return (
                         <li key={"high-score-" + index} className="high-score">
-                            <span className="high-score-name">{highScore.name}</span>
+                            {nameObj}
                             <span className="high-score-number">{highScore.score}</span>
                         </li>
                     )

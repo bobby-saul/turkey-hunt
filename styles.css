@@ -19,18 +19,26 @@ button {
     background-color: #df7126;
     color: #fff;
     box-shadow: 1px 1px #ab3334;
+    cursor: none;
 }
 button:hover,
 button:focus,
 button:active {
     background-color: #ac3232;
 }
-.flex {
+input {
+    background: #aaa;
+    color: white;
+    border: none;
+    font-size: 1rem;
+    border-radius: 3px;
+}
+.col-2 {
     display: flex;
     align-items: flex-start;
     justify-content: center;
 }
-.flex > div {
+.col-2 > div {
     width: 50%;
 }
 #TurkeyHunt {
@@ -57,13 +65,17 @@ button:active {
     left: 0;
     right: 0;
     z-index: 110;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: #333333aa;
-    padding: 5%;
 }
 .modal-container {
-    height: 100%;
     background: #333;
     padding: 2%;
+    max-height: 86%;
+    max-width: 86%;
+    min-width: 50%;
     overflow-y: scroll;
 }
 .instructions {

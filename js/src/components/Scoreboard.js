@@ -20,7 +20,7 @@ const Scoreboard = ({time, setTime, round, score, setScore, ammo, setAmmo, maxAm
         <div className="scoreboard">
             <div className="black-box timer-wrapper">
                 <div className="round">ROUND: {round}</div>
-                <div className="timer">{time}S</div>
+                <div className="timer">{time}s</div>
             </div>
             <MouseFollow
                 fire={fire}

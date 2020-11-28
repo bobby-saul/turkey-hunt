@@ -7,7 +7,7 @@ const GameOverModal = ({score, startGame}) => {
             <div className="modal-container">
                 <div className="title">Game Over</div>
                 <div>
-                    Score: {score}
+                    <p>Score: {score}</p>
                 </div>
                 <HighScores score={score}/>
                 <button onClick={startGame}>New Game</button>

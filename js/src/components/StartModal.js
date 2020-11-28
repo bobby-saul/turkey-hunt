@@ -8,7 +8,7 @@ const StartModal = ({startGame}) => {
             <div className="modal-container">
                 <div className="title">Turkey Hunt</div>
                 <button onClick={startGame}>Start Game</button>
-                <div className="flex">
+                <div className="col-2">
                     <Instructions/>
                     <HighScores/>
                 </div>

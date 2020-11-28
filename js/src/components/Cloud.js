@@ -14,7 +14,6 @@ const Cloud = ({cloudId, firstLoad, removeCloud}) => {
     const [top, setTop] = useState(Math.floor(Math.random() * 100));
     const [left, setLeft] = useState(l);
     const [height, setHeight] = useState(Math.floor(Math.random() * 5) + 15);
-    const [style, setStyle] = useState(Math.floor(Math.random() * 3));
     var dir = 1;
     if (left > 50) {
         dir = -1;
@@ -38,9 +37,10 @@ const Cloud = ({cloudId, firstLoad, removeCloud}) => {
             }
         }, speed);
         return () => clearInterval(moveCloud);
-    });
+    }, [cloudId, removeCloud, speed, left]);
+    
     return (
-        <div className={"cloud could-" + style} style={{
+        <div className="cloud" style={{
             top: top + "%",
             left: left + "%",
             width: width + "%",

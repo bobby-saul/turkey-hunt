@@ -3,6 +3,7 @@ import Cloud from "./Cloud";
 
 const CLOUD_MIN_TIME = 3000;
 const CLOUD_MAX_TIME = 30000 - CLOUD_MIN_TIME;
+const MAX_CLOUDS = 10;
 
 const Sky = () => {
     var firstClouds = [];
@@ -14,25 +15,29 @@ const Sky = () => {
         });
     }
     const [clouds, setClouds] = useState(firstClouds);
-    const [cloudid, setCloudid] = useState(cloudAmount);
+
     useEffect(() => {
             const time = Math.floor(Math.random() * CLOUD_MAX_TIME) + CLOUD_MIN_TIME;
             var addNewTimer = setTimeout(() => {
-                addCloud()
+                if (clouds.length < MAX_CLOUDS) {
+                    addCloud()
+                }
             }, time);
             return () => clearTimeout(addNewTimer);
-    },[cloudid, clouds]);
+    },[clouds]);
+
     function addCloud() {
         var cloud = {
-            id: cloudid,
+            id: Date.now(),
             firstLoad: false
         }
         setClouds(clouds.concat(cloud));
-        setCloudid(cloudid + 1);
     }
+
     function removeCloud(id) {
         setClouds(clouds.filter((cloud) => cloud.id !== parseInt(id)));
     }
+
     return (
         <div className="sky">
             {clouds.map((cloud) => 

@@ -1,28 +1,31 @@
 import React, {useState, useEffect} from "react";
 import Turkey from "./Turkey";
 
-const MAX_TURKEYS = 6;
+const MAX_TURKEYS = 5;
 
 const TurkeyControl = ({round, score, setScore, time, ammo, setAmmo}) => {
     const [turkeys, setTurkeys] = useState([]);
+    const [oldTime, setOldTime] = useState(time);
+    const [maxTurkeys, setMaxTurkeys] = useState(MAX_TURKEYS);
 
     useEffect(() => {
-        if (round > 0 && time > 0 && turkeys.length < MAX_TURKEYS) {
-            // Randomly add turkeys if in round.
-            // TODO - Fix this to be more smooth
-            var compareValue = (turkeys.length * round) / MAX_TURKEYS;
-            if (Math.random() > compareValue) {
-                addTurkey();
+        // Only do this once a second.
+        if (time !== oldTime) {
+            setOldTime(time);
+            // Randomly add turkey if time left.
+            if (time > 0 && turkeys.length < maxTurkeys) {
+                if (Math.random() > (turkeys.length / maxTurkeys)) {
+                    addTurkey();
+                }
+            } else if (time < 1) {
+                setTurkeys([]);
             }
         }
-    }, [round, time, turkeys]);
+    }, [round, time, oldTime, turkeys]);
 
     useEffect(() => {
-        // Clear turkeys at end of round.
-        if (time < 1) {
-            clearTurkeys();
-        }
-    }, [time]);
+        setMaxTurkeys(Math.max((MAX_TURKEYS - round + 1), 2));
+    }, [round]);
 
     function addTurkey() {
         setTurkeys(turkeys.concat({
@@ -32,10 +35,6 @@ const TurkeyControl = ({round, score, setScore, time, ammo, setAmmo}) => {
 
     function removeTurkey(id) {
         setTurkeys(turkeys.filter((turkey) => turkey.id !== id));
-    }
-
-    function clearTurkeys() {
-        setTurkeys([]);
     }
 
     return (
@@ -51,6 +50,7 @@ const TurkeyControl = ({round, score, setScore, time, ammo, setAmmo}) => {
                     score={score}
                     setScore={setScore}
                     time={time}
+                    round={round}
                 />
                 )}
             </div>

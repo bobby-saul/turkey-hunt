@@ -9,9 +9,11 @@ const ASSET_TYPES = 4;
 const ASSET_MIN_SIZE = 10;
 const ASSET_MAX_SIZE = 25 - ASSET_MIN_SIZE;
 
-const Ground = () => {
+const Ground = ({round}) => {
     const [tiles, setTiles] = useState([]);
     const [assets, setAssets] = useState([]);
+    
+    // Set the ground tiles.
     useEffect(() => {
         var newTiles = [];
         for (var row = 0; row < TILE_ROW; row++){
@@ -24,9 +26,12 @@ const Ground = () => {
             </div>);
         }
         setTiles(newTiles);
-    },[]);
+    },[round]);
+
+    // Set the ground assets.
     useEffect(() => {
         var assetAmount = Math.floor(Math.random() * MAX_GROUND_ASSETS) + MIN_GROUND_ASSETS;
+        var newAssets = [];
         for (var asset = 0; asset < assetAmount; asset++) {
             var y = Math.floor(Math.random() * 100);
             var x = Math.floor(Math.random() * 100);
@@ -36,7 +41,7 @@ const Ground = () => {
             if (style === 0) {
                 size = 0.7 * size;
             }
-            assets.push(
+            newAssets.push(
                 <div key={"ground-asset-" + asset} className={classes} style={{
                     top: y + "%",
                     left: x + "%",
@@ -47,8 +52,9 @@ const Ground = () => {
                 </div>
             );
         }
-        setAssets(assets);
-    }, []);
+        setAssets(newAssets);
+    }, [round]);
+
     return (
         <div className="ground">
             <div className="horizon"></div>

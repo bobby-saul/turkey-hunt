@@ -2,10 +2,12 @@ import React, {useState, useEffect} from "react";
 
 const FIRING_TIME = 100;
 
-const MouseFollow = ({ammo, fire, score, setScore, time}) => {
+const MouseFollow = ({ammo, fire, score, setScore, time, isReloading}) => {
     const [mousePosition, setMousePosition] = useState([0, 0, 0, 0, 0, 1]);
     const [firing, setFiring] = useState(false);
+    const [oldAmmo, setOldAmmo] = useState(ammo);
 
+    // Follow Mouse
     useEffect(() => {
         window.onmousemove = (e) => {
             var mouseContainer = document.getElementsByClassName('mouse-container')[0];
@@ -28,32 +30,45 @@ const MouseFollow = ({ammo, fire, score, setScore, time}) => {
             setMousePosition([x2, y2, angle, flip]);
         }
     }, []);
+
+    // On click remove ammo.
     useEffect(() => {
         window.onclick = () => {
             if (ammo > 0 && time > 0) {
-                setFiring(true);
                 fire();
-                setTimeout(() => {
-                    setFiring(false);
-                }, FIRING_TIME);
                 setScore(score - 10);
             }
         }
-        return () => {
-            window.onclick = null;
+    }, [window, ammo, time, score]);
+
+    // Set the firing animation.
+    useEffect(() => {
+        if (ammo !== oldAmmo) {
+            setOldAmmo(ammo);
+            if (ammo < oldAmmo) {
+                setFiring(true);
+                var firingAnimation = setTimeout(() => {
+                    setFiring(false);
+                }, FIRING_TIME);
+                return () => clearInterval(firingAnimation);
+            }
         }
-    });
+    }, [ammo])
 
     return (
         <div className="mouse-container">
-            <div className={"gun" + (firing ? " firing" : "")} style={{
-                transform: "translate(-50%, -65%) rotate(" + mousePosition[2] + "deg) scaleX(" + mousePosition[3][0] + ")  scaleY(" + mousePosition[3][1] + ")",
+            <div
+                className={"gun" + (firing ? " firing" : "") + (isReloading ? " reloading" : "")}
+                style={{transform: "translate(-50%, -65%) rotate(" + mousePosition[2] + "deg) scaleX(" + mousePosition[3][0] + ")  scaleY(" + mousePosition[3][1] + ")",
             }}>
             </div>
-            <div className="target" style={{
-                top: mousePosition[1],
-                left: mousePosition[0]
-            }}>
+            <div
+                className={"target" + (isReloading ? " reloading" : "")}
+                style={{
+                    top: mousePosition[1],
+                    left: mousePosition[0]
+                }
+            }>
             </div>
         </div>
     );

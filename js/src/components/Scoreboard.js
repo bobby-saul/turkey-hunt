@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import Ammo from "./Ammo";
 import MouseFollow from "./MouseFollow";
 
-const Scoreboard = ({time, setTime, round, score, setScore, ammo, setAmmo, maxAmmo, reloadTime}) => {
+const Scoreboard = ({time, setTime, round, score, setScore, ammo, setAmmo, maxAmmo, reload, isReloading}) => {
     useEffect(() => {
         if (time > 0) {
             const countDown = setTimeout(() => {
@@ -11,12 +11,6 @@ const Scoreboard = ({time, setTime, round, score, setScore, ammo, setAmmo, maxAm
             return () => clearTimeout(countDown);
         }
     }, [time]);
-
-    function reload() {
-        setTimeout(() => {
-            setAmmo(maxAmmo);
-        }, reloadTime);
-    }
 
     function fire() {
         setAmmo(ammo - 1);
@@ -34,6 +28,7 @@ const Scoreboard = ({time, setTime, round, score, setScore, ammo, setAmmo, maxAm
                 score={score}
                 setScore={setScore}
                 time={time}
+                isReloading={isReloading}
             />
             <Ammo
                 ammo={ammo}

@@ -4,19 +4,18 @@ const TURKEY_MIN_SIZE = 5;
 const TURKEY_MAX_SIZE = 12 - TURKEY_MIN_SIZE;
 const MIN_MOVES = 5;
 const MAX_MOVES = 10 - MIN_MOVES;
-const MIN_SPEED_TIME = 25;
-const MAX_SPEED_TIME = 100 - MIN_SPEED_TIME;
+const BASE_SPEED = 100;
 const DEATH_ANIMATION_TIME = 450;
 
-const TurkeyControl = ({id, removeTurkey, score, setScore, ammo, setAmmo, time}) => {
+const TurkeyControl = ({id, removeTurkey, score, setScore, ammo, setAmmo, time, round}) => {
     const [isDead, setIsDead] = useState(false);
-    const [speed, setSpeed] = useState(Math.floor(Math.random() * MAX_SPEED_TIME) + MIN_SPEED_TIME);
+    const [speed, setSpeed] = useState(Math.floor(Math.random() * BASE_SPEED / round) + BASE_SPEED / round);
     const [moves, setMoves] = useState(Math.floor(Math.random() * MAX_MOVES) + MIN_MOVES);
     const [top, setTop] = useState(Math.floor(Math.random() * 100));
     const [topRoute, setTopRoute] = useState(Math.floor(Math.random() * 100));
     const [left, setLeft] = useState(Math.random() > 0.5 ? -12 : 100);
     const [leftRoute, setLeftRoute] = useState(Math.floor(Math.random() * 100));
-    const [classes, setclasses] = useState('turkey');
+    const [classes, setClasses] = useState('turkey');
     var size = TURKEY_MAX_SIZE * (top / 100) + TURKEY_MIN_SIZE;
 
     useEffect(() => {
@@ -61,12 +60,12 @@ const TurkeyControl = ({id, removeTurkey, score, setScore, ammo, setAmmo, time})
             }, speed);
             return () => clearInterval(moveStep);
         }
-    });
+    }, [isDead, moves, top, topRoute, left, leftRoute, classes]);
 
     function move(top, left, classes) {
         setTop(top);
         setLeft(left);
-        setclasses(classes);
+        setClasses(classes);
     }
 
     function newPosition(t, l) {
@@ -76,10 +75,10 @@ const TurkeyControl = ({id, removeTurkey, score, setScore, ammo, setAmmo, time})
     }
 
     function deadTurkey(e) {
-        if (ammo > 0 && time > 0) {
+        if (ammo > 0 && time > 0 && !isDead) {
             e.stopPropagation();
             setIsDead(true);
-            setclasses("turkey dead");
+            setClasses("turkey dead");
             setScore(score + 100);
             setAmmo(ammo - 1);
         }

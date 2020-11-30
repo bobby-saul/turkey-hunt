@@ -11,6 +11,11 @@ const MAX_SIZE = 9680;
 const RELOAD_TIME = 500;
 const BASE_AMMO = 3;
 const ROUND_TIME = 60 / 2;
+const MIN_GROUND_ASSETS = 3;
+const MAX_GROUND_ASSETS = 15 - MIN_GROUND_ASSETS;
+const GROUND_ASSET_TYPES = 4;
+const GROUND_ASSET_MIN_SIZE = 10;
+const GROUND_ASSET_MAX_SIZE = 25 - GROUND_ASSET_MIN_SIZE;
 
 function getSize() {
   const width  = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -19,6 +24,7 @@ function getSize() {
 }
 
 const Game = () => {
+  const [groundAssets, setGroundAssets] = useState([]);
   const [size, setSize] = useState(getSize());
   const [score, setScore] = useState(0);
   const [round, setRound] = useState(0);
@@ -30,12 +36,12 @@ const Game = () => {
   const [playSound, setPlaySound] = useState(true);
   const [modal, setModal] = useState(<StartModal startGame={startGame}/>);
 
+  // Window event listeners.
   useEffect(() => {
     // Window resize.
     window.addEventListener('resize', () => {
       setSize(getSize());
     });
-
     // Reload on space bar.
     window.onkeypress = (e) => {
       if (e.keyCode === 32) {
@@ -44,21 +50,19 @@ const Game = () => {
     };
   }, [window, time, playSound]);
 
+  // Switch out the modal.
   useEffect(() => {
     if (round === 0) {
-      // Start Modal
       setModal(<StartModal
         startGame={startGame}
       />);
     } else if (time < 1 && nextRound()) {
-      // Next Round
       setModal(<NextRoundModal
         round={round}
         score={score}
         startRound={startRound}
       />);
     } else if (time < 1) {
-      // End Game
       setModal(<GameOverModal
         score={score}
         startGame={startGame}
@@ -66,7 +70,31 @@ const Game = () => {
     } else {
       setModal(null);
     }
-  }, [round, time])
+  }, [round, time]);
+
+  // Set the ground assets.
+  useEffect(() => {
+    var assetAmount = Math.floor(Math.random() * MAX_GROUND_ASSETS) + MIN_GROUND_ASSETS;
+    var newAssets = [];
+    for (var asset = 0; asset < assetAmount; asset++) {
+        var y = Math.floor(Math.random() * 100);
+        var x = Math.floor(Math.random() * 100);
+        var style = Math.floor(Math.random() * GROUND_ASSET_TYPES);
+        var size =  (y / 100) * GROUND_ASSET_MAX_SIZE + GROUND_ASSET_MIN_SIZE;
+        // Makes rocks smaller
+        if (style === 0) {
+            size = 0.7 * size;
+        }
+        newAssets.push({
+          id: asset,
+          y: y,
+          x: x,
+          size: size,
+          style: style
+        });
+    }
+    setGroundAssets(newAssets);
+  }, [round]);
 
   function startGame() {
     setRound(1);
@@ -109,7 +137,7 @@ const Game = () => {
       <div className="environment">
         <Sky/>
         <Ground
-          round={round}
+          assets={groundAssets}
         />
         <TurkeyControl
           playSound={playSound}
@@ -119,6 +147,7 @@ const Game = () => {
           time={time}
           ammo={ammo}
           setAmmo={setAmmo}
+          groundAssets={groundAssets}
         />
       </div>
       <Scoreboard

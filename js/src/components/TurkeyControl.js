@@ -3,7 +3,7 @@ import Turkey from "./Turkey";
 
 const MAX_TURKEYS = 5;
 
-const TurkeyControl = ({round, score, setScore, time, ammo, setAmmo, playSound}) => {
+const TurkeyControl = ({round, score, setScore, time, ammo, setAmmo, playSound, groundAssets}) => {
     const [turkeys, setTurkeys] = useState([]);
     const [oldTime, setOldTime] = useState(time);
     const [maxTurkeys, setMaxTurkeys] = useState(MAX_TURKEYS);
@@ -58,6 +58,7 @@ const TurkeyControl = ({round, score, setScore, time, ammo, setAmmo, playSound})
                     setScore={setScore}
                     time={time}
                     round={round}
+                    groundAssets={groundAssets}
                 />
                 )}
             </div>

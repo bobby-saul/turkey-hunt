@@ -119,6 +119,7 @@ const Game = () => {
       if (playSound) {
         var sound = new Audio("./sounds/reload.mp3");
         sound.currentTime = 0;
+        sound.volume = 0.50;
         sound.play();
       }
       setTimeout(() => {

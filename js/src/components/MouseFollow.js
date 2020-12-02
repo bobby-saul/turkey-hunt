@@ -41,6 +41,7 @@ const MouseFollow = ({ammo, fire, score, setScore, time, isReloading, playSound}
                 } else if (playSound) {
                     var sound = new Audio("./sounds/empty-shot.mp3");
                     sound.currentTime = 0;
+                    sound.volume = 0.35;
                     sound.play();
                 }
             }
@@ -55,6 +56,7 @@ const MouseFollow = ({ammo, fire, score, setScore, time, isReloading, playSound}
                 if (playSound) {
                     var sound = new Audio("./sounds/shotgun.mp3");
                     sound.currentTime = 0;
+                    sound.volume = 0.20;
                     sound.play();
                 }
                 setFiring(true);

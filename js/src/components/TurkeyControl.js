@@ -22,9 +22,10 @@ const TurkeyControl = ({round, score, setScore, time, ammo, setAmmo, playSound, 
             }
 
             // Random turkey calls.
-            if (playSound && time % 2 === 0 && turkeys.length * Math.random() > 0.8) {
+            if (playSound && time % 2 === 0 && turkeys.length * Math.random() > 0.85) {
                 var sound = new Audio("./sounds/turkey.mp3");
                 sound.currentTime = 0;
+                sound.volume = 0.20;
                 sound.play();
             }
         }

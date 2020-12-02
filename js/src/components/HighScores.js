@@ -1,11 +1,26 @@
 import React, {useEffect, useRef, useState} from "react";
 
 function saveHS(highscore) {
-    localStorage.setItem("highscores", JSON.stringify(highscore));
+    if (navigator.cookieEnabled) {
+        try {
+            localStorage.setItem("highscores", JSON.stringify(highscore));
+        } catch (error) {
+            console.error("Error - Failed to set local storage.");
+            console.error(error);
+        }
+    }
 }
 
 function getSavedHS() {
-    var value = localStorage.getItem("highscores");
+    var value = "[{\"name\":\"PLEASE\",\"score\":100},{\"name\":\"TURN\",\"score\":90},{\"name\":\"ON\",\"score\":80},{\"name\":\"COOKIES\",\"score\":70},{\"name\":\"FOR\",\"score\":60},{\"name\":\"HIGH\",\"score\":50},{\"name\":\"SCORES\",\"score\":40},{\"name\":\"TO\",\"score\":30},{\"name\":\"BE\",\"score\":20},{\"name\":\"TRACKED\",\"score\":10}]";
+    if (navigator.cookieEnabled) {
+        try {
+            value = localStorage.getItem("highscores");
+        } catch (error) {
+            console.error("Error - Failed to get local storage.");
+            console.error(error);
+        }
+    }
     if (value) {
         var hs = JSON.parse(value);
         hs.forEach(item => {

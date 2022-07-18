@@ -1,9 +1,11 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 
-import Game from './components/Game';
+import Game from "./components/Game";
 
-ReactDOM.render(<Game />, document.getElementById('TurkeyHunt'));
+const container = document.getElementById("TurkeyHunt");
+const root = createRoot(container);
+root.render(<Game />);
 
 // Initial load sound
 new Audio("./sounds/turkey.mp3");

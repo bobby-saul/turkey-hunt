@@ -223,7 +223,27 @@ input {
     background-image: url("./images/turkey_away.gif");
 }
 .turkey.dead {
-    background-image: url("./images/turkey_death.gif");
+    animation: turkey-death 400ms linear 1 forwards;
+}
+@keyframes turkey-death {
+    0% {
+        background-image: url("./images/turkey_death_0.png");
+    }
+    20% {
+        background-image: url("./images/turkey_death_1.png");
+    }
+    40% {
+        background-image: url("./images/turkey_death_2.png");
+    }
+    60% {
+        background-image: url("./images/turkey_death_3.png");
+    }
+    80% {
+        background-image: url("./images/turkey_death_4.png");
+    }
+    100% {
+        background-image: url("./images/turkey_death_4.png");
+    }
 }
 .scoreboard {
     position: absolute;

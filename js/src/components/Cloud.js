@@ -1,54 +1,62 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
-const Cloud = ({cloudId, firstLoad, removeCloud}) => {
-    const [width, setWidth] = useState(Math.floor(Math.random() * 35) + 15);
-    var l = Math.floor(Math.random() * 100);
-    if (!firstLoad) {
-        if (l > 50) {
-            l = 100;
+const MIN_CLOUD_WIDTH = 15;
+const MAX_CLOUD_WIDTH = 45 - MIN_CLOUD_WIDTH;
+const MIN_SPEED = 250;
+const MAX_SPEED = 1250 - MIN_SPEED;
+const MIN_HEIGHT = 15;
+const MAX_HEIGHT = 20 - MIN_HEIGHT;
+
+const Cloud = ({ cloudId, firstLoad, removeCloud }) => {
+  const createDimensions = useCallback(() => {
+    const width = Math.floor(Math.random() * MAX_CLOUD_WIDTH) + MIN_CLOUD_WIDTH;
+    const left = firstLoad
+      ? Math.floor(Math.random() * 100)
+      : Math.random() > 0.5
+      ? 100
+      : -width;
+    return {
+      width: width,
+      height: Math.floor(Math.random() * MAX_HEIGHT) + MIN_HEIGHT,
+      speed: Math.floor(Math.random() * MAX_SPEED) + MIN_SPEED,
+      left: left,
+      top: Math.floor(Math.random() * 100),
+      direction: left > 50 ? -1 : 1,
+    };
+  }, []);
+  const [dimensions, setDimensions] = useState(createDimensions());
+
+  useEffect(() => {
+    const moveCloud = setInterval(() => {
+      if (dimensions.direction === 1) {
+        if (dimensions.left > 100) {
+          removeCloud(cloudId);
         } else {
-            l = - width;
+          setDimensions({ ...dimensions, left: dimensions.left + 1 });
         }
-    }
-    const [speed, setSpeed] = useState(Math.floor(Math.random() * 1000) + 250);
-    const [top, setTop] = useState(Math.floor(Math.random() * 100));
-    const [left, setLeft] = useState(l);
-    const [height, setHeight] = useState(Math.floor(Math.random() * 5) + 15);
-    var dir = 1;
-    if (left > 50) {
-        dir = -1;
-    }
-    const [direction, setDirection] = useState(dir);
+      } else {
+        if (dimensions.left < 0 - dimensions.width) {
+          removeCloud(cloudId);
+        } else {
+          setDimensions({ ...dimensions, left: dimensions.left - 1 });
+        }
+      }
+    }, dimensions.speed);
+    return () => clearInterval(moveCloud);
+  }, [cloudId, removeCloud, dimensions, setDimensions]);
 
-    useEffect(() => {
-        const moveCloud = setInterval(() => {
-            if (direction === 1) {
-                if (left > 100) {
-                    removeCloud(cloudId);
-                } else {
-                    setLeft(left + 1);
-                }
-            } else {
-                if (left < (0 - width)) {
-                    removeCloud(cloudId);
-                } else {
-                    setLeft(left - 1);
-                }
-            }
-        }, speed);
-        return () => clearInterval(moveCloud);
-    }, [cloudId, removeCloud, speed, left]);
-    
-    return (
-        <div className="cloud" style={{
-            top: top + "%",
-            left: left + "%",
-            width: width + "%",
-            height: height + "%",
-            transition: (speed / 1000) + "s linear"
-        }}>
-        </div>
-    )
+  return (
+    <div
+      className="cloud"
+      style={{
+        top: dimensions.top + "%",
+        left: dimensions.left + "%",
+        width: dimensions.width + "%",
+        height: dimensions.height + "%",
+        transition: dimensions.speed + "ms linear",
+      }}
+    ></div>
+  );
 };
 
 export default Cloud;

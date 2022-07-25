@@ -1,70 +1,88 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Turkey from "./Turkey";
+import { v4 as newUuid } from "uuid";
 
 const MAX_TURKEYS = 5;
 
-const TurkeyControl = ({round, score, setScore, time, ammo, setAmmo, playSound, groundAssets}) => {
-    const [turkeys, setTurkeys] = useState([]);
-    const [oldTime, setOldTime] = useState(time);
-    const [maxTurkeys, setMaxTurkeys] = useState(MAX_TURKEYS);
+const TurkeyControl = ({
+  round,
+  score,
+  setScore,
+  time,
+  ammo,
+  setAmmo,
+  playSound,
+  groundAssets,
+}) => {
+  const [turkeys, setTurkeys] = useState([]);
+  const [oldTime, setOldTime] = useState(time);
 
-    useEffect(() => {
-        // Only do this once a second.
-        if (time !== oldTime) {
-            setOldTime(time);
-            // Randomly add turkey if time left.
-            if (time > 0 && turkeys.length < maxTurkeys) {
-                if (Math.random() > (turkeys.length / maxTurkeys)) {
-                    addTurkey();
-                }
-            } else if (time < 1) {
-                setTurkeys([]);
-            }
+  const maxTurkeys = useMemo(() => {
+    return Math.max(MAX_TURKEYS - round + 1, 2);
+  }, [MAX_TURKEYS, round]);
 
-            // Random turkey calls.
-            if (playSound && time % 2 === 0 && turkeys.length * Math.random() > 0.85) {
-                var sound = new Audio("./sounds/turkey.mp3");
-                sound.currentTime = 0;
-                sound.volume = 0.20;
-                sound.play();
-            }
+  useEffect(() => {
+    // Only do this once a second.
+    if (time !== oldTime) {
+      setOldTime(time);
+      // Randomly add turkey if time left.
+      if (time > 0 && turkeys.length < maxTurkeys) {
+        if (Math.random() > turkeys.length / maxTurkeys) {
+          addTurkey();
         }
-    }, [round, time, oldTime, turkeys, playSound]);
+      } else if (time < 1) {
+        setTurkeys([]);
+      }
 
-    useEffect(() => {
-        setMaxTurkeys(Math.max((MAX_TURKEYS - round + 1), 2));
-    }, [round]);
-
-    function addTurkey() {
-        setTurkeys(turkeys.concat({
-            id: "turkey-" + Date.now()
-        }));
+      // Random turkey calls.
+      if (
+        playSound &&
+        time % 2 === 0 &&
+        turkeys.length * Math.random() > 0.85
+      ) {
+        var sound = new Audio("./sounds/turkey.mp3");
+        sound.currentTime = 0;
+        sound.volume = 0.2;
+        sound.play();
+      }
     }
+  }, [round, time, oldTime, turkeys, playSound]);
 
-    function removeTurkey(id) {
-        setTurkeys(turkeys.filter((turkey) => turkey.id !== id));
-    }
+  const addTurkey = useCallback(() => {
+    setTurkeys(
+      turkeys.concat({
+        id: newUuid(),
+      })
+    );
+  }, [turkeys, setTurkeys]);
 
-    return (
-        <div className="turkey-container">
-            <div className="turkey-control">
-                {turkeys.map((turkey) => 
-                    <Turkey
-                    key={turkey.id}
-                    id={turkey.id}
-                    removeTurkey={removeTurkey}
-                    ammo={ammo}
-                    setAmmo={setAmmo}
-                    score={score}
-                    setScore={setScore}
-                    time={time}
-                    round={round}
-                    groundAssets={groundAssets}
-                />
-                )}
-            </div>
-        </div>
-    )
+  const removeTurkey = useCallback(
+    (id) => {
+      setTurkeys(turkeys.filter((turkey) => turkey.id !== id));
+    },
+    [turkeys, setTurkeys]
+  );
+
+  return (
+    <div className="turkey-container">
+      <div className="turkey-control">
+        {turkeys.map((turkey) => (
+          <Turkey
+            key={turkey.id}
+            id={turkey.id}
+            removeTurkey={removeTurkey}
+            ammo={ammo}
+            setAmmo={setAmmo}
+            score={score}
+            setScore={setScore}
+            time={time}
+            round={round}
+            groundAssets={groundAssets}
+          />
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default TurkeyControl;

@@ -5,7 +5,11 @@ import Game from "./components/Game";
 
 const container = document.getElementById("TurkeyHunt");
 const root = createRoot(container);
-root.render(<Game />);
+root.render(
+  <React.StrictMode>
+    <Game />
+  </React.StrictMode>
+);
 
 // Initial load sound
 new Audio("./sounds/turkey.mp3");

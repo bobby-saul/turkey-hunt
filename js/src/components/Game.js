@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Sky from "./Sky";
 import Ground from "./Ground";
 import TurkeyControl from "./TurkeyControl";
@@ -18,8 +18,14 @@ const GROUND_ASSET_MIN_SIZE = 10;
 const GROUND_ASSET_MAX_SIZE = 25 - GROUND_ASSET_MIN_SIZE;
 
 function getSize() {
-  const width  = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-  const height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+  const width =
+    window.innerWidth ||
+    document.documentElement.clientWidth ||
+    document.body.clientWidth;
+  const height =
+    window.innerHeight ||
+    document.documentElement.clientHeight ||
+    document.body.clientHeight;
   return Math.min(MAX_SIZE, width, height);
 }
 
@@ -30,16 +36,14 @@ const Game = () => {
   const [round, setRound] = useState(0);
   const [time, setTime] = useState(0);
   const [ammo, setAmmo] = useState(BASE_AMMO);
-  const [maxAmmo, setMaxAmmo] = useState(BASE_AMMO);
-  const [reloadTime, setReloadTime] = useState(RELOAD_TIME);
   const [isReloading, setIsReloading] = useState(false);
   const [playSound, setPlaySound] = useState(true);
-  const [modal, setModal] = useState(<StartModal startGame={startGame}/>);
+  const [modal, setModal] = useState(<StartModal startGame={startGame} />);
 
   // Window event listeners.
   useEffect(() => {
     // Window resize.
-    window.addEventListener('resize', () => {
+    window.addEventListener("resize", () => {
       setSize(getSize());
     });
     // Reload on space bar.
@@ -53,20 +57,13 @@ const Game = () => {
   // Switch out the modal.
   useEffect(() => {
     if (round === 0) {
-      setModal(<StartModal
-        startGame={startGame}
-      />);
-    } else if (time < 1 && nextRound()) {
-      setModal(<NextRoundModal
-        round={round}
-        score={score}
-        startRound={startRound}
-      />);
+      setModal(<StartModal startGame={startGame} />);
+    } else if (time < 1 && nextRound) {
+      setModal(
+        <NextRoundModal round={round} score={score} startRound={startRound} />
+      );
     } else if (time < 1) {
-      setModal(<GameOverModal
-        score={score}
-        startGame={startGame}
-      />);
+      setModal(<GameOverModal score={score} startGame={startGame} />);
     } else {
       setModal(null);
     }
@@ -74,72 +71,80 @@ const Game = () => {
 
   // Set the ground assets.
   useEffect(() => {
-    var assetAmount = Math.floor(Math.random() * MAX_GROUND_ASSETS) + MIN_GROUND_ASSETS;
+    var assetAmount =
+      Math.floor(Math.random() * MAX_GROUND_ASSETS) + MIN_GROUND_ASSETS;
     var newAssets = [];
     for (var asset = 0; asset < assetAmount; asset++) {
-        var y = Math.floor(Math.random() * 100);
-        var x = Math.floor(Math.random() * 100);
-        var style = Math.floor(Math.random() * GROUND_ASSET_TYPES);
-        var size =  (y / 100) * GROUND_ASSET_MAX_SIZE + GROUND_ASSET_MIN_SIZE;
-        // Makes rocks smaller
-        if (style === 0) {
-            size = 0.7 * size;
-        }
-        newAssets.push({
-          id: asset,
-          y: y,
-          x: x,
-          size: size,
-          style: style
-        });
+      var y = Math.floor(Math.random() * 100);
+      var x = Math.floor(Math.random() * 100);
+      var style = Math.floor(Math.random() * GROUND_ASSET_TYPES);
+      var size = (y / 100) * GROUND_ASSET_MAX_SIZE + GROUND_ASSET_MIN_SIZE;
+      // Makes rocks smaller
+      if (style === 0) {
+        size = 0.7 * size;
+      }
+      newAssets.push({
+        id: asset,
+        y: y,
+        x: x,
+        size: size,
+        style: style,
+      });
     }
     setGroundAssets(newAssets);
   }, [round]);
 
-  function startGame() {
-    setRound(1);
-    setTime(ROUND_TIME);
-    setAmmo(maxAmmo);
-    setScore(0);
-  }
+  const nextRound = useMemo(() => score > (round * 1000) / 2, [score, round]);
 
-  function nextRound() {
-    return (score > round * 1000 / 2);
-  }
+  const startGame = useCallback(
+    (e) => {
+      e.stopPropagation();
+      setRound(1);
+      setTime(ROUND_TIME);
+      setAmmo(BASE_AMMO);
+      setScore(0);
+    },
+    [setRound, setTime, setAmmo, setScore]
+  );
 
-  function startRound() {
-    setRound(round + 1);
-    setTime(ROUND_TIME);
-    setAmmo(maxAmmo);
-  }
+  const startRound = useCallback(
+    (e) => {
+      e.stopPropagation();
+      setRound(round + 1);
+      setTime(ROUND_TIME);
+      setAmmo(BASE_AMMO);
+    },
+    [round, setRound, setTime, setAmmo]
+  );
 
-  function reload() {
+  const reload = useCallback(() => {
     if (time > 0) {
       setIsReloading(true);
       if (playSound) {
         var sound = new Audio("./sounds/reload.mp3");
         sound.currentTime = 0;
-        sound.volume = 0.50;
+        sound.volume = 0.5;
         sound.play();
       }
       setTimeout(() => {
-        setAmmo(maxAmmo);
+        setAmmo(BASE_AMMO);
         setIsReloading(false);
-      }, reloadTime);
+      }, RELOAD_TIME);
     }
-  }
+  }, [time, playSound, setIsReloading]);
 
   return (
-    <div className="game" style={{
-      width: size,
-      height: size
-    }}>
+    <div
+      className="game"
+      style={{
+        width: size,
+        height: size,
+      }}
+    >
       {modal}
       <div className="environment">
-        <Sky/>
-        <Ground
-          assets={groundAssets}
-        />
+        <Sky />
+        <Ground assets={groundAssets} />
         <TurkeyControl
           playSound={playSound}
           round={round}
@@ -162,12 +167,12 @@ const Game = () => {
         setScore={setScore}
         ammo={ammo}
         setAmmo={setAmmo}
-        maxAmmo={maxAmmo}
+        maxAmmo={BASE_AMMO}
         reload={reload}
         isReloading={isReloading}
       />
     </div>
-  )
+  );
 };
 
 export default Game;

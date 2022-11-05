@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Turkey Hunt</string>
+    <string name="title_activity_main">Turkey Hunt</string>
+    <string name="package_name">com.bobbysaul.turkeyhunt</string>
+    <string name="custom_url_scheme">com.bobbysaul.turkeyhunt</string>
+</resources>

@@ -1,5 +1,5 @@
 module.exports = {
-  entry: "./js/src/index.js",
+  entry: "./src/js/index.js",
   module: {
     rules: [
       {
@@ -13,13 +13,14 @@ module.exports = {
     extensions: ["*", ".js", ".jsx"],
   },
   output: {
-    path: __dirname + "/js/dist",
-    filename: "index.js",
+    path: __dirname + "/www/",
+    filename: "app.js",
   },
   devServer: {
     open: true,
+    hot: false,
     static: {
-      directory: __dirname,
+      directory: __dirname + "/www",
     },
     devMiddleware: {
       writeToDisk: true,

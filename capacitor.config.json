@@ -1,0 +1,6 @@
+{
+  "appId": "com.bobbysaul.turkeyhunt",
+  "appName": "Turkey Hunt",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}

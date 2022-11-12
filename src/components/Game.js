@@ -6,6 +6,7 @@ import Scoreboard from "./Scoreboard";
 import StartModal from "./StartModal";
 import NextRoundModal from "./NextRoundModal";
 import GameOverModal from "./GameOverModal";
+import reloadSound from "../sounds/reload.mp3";
 
 const MAX_SIZE = 9680;
 const RELOAD_TIME = 500;
@@ -121,7 +122,7 @@ const Game = () => {
     if (time > 0) {
       setIsReloading(true);
       if (playSound) {
-        var sound = new Audio("./sounds/reload.mp3");
+        var sound = new Audio(reloadSound);
         sound.currentTime = 0;
         sound.volume = 0.5;
         sound.play();

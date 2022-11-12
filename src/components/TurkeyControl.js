@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Turkey from "./Turkey";
 import { v4 as newUuid } from "uuid";
+import turkeySound from "../sounds/turkey.mp3";
 
 const MAX_TURKEYS = 5;
 
@@ -40,7 +41,7 @@ const TurkeyControl = ({
         time % 2 === 0 &&
         turkeys.length * Math.random() > 0.85
       ) {
-        var sound = new Audio("./sounds/turkey.mp3");
+        var sound = new Audio(turkeySound);
         sound.currentTime = 0;
         sound.volume = 0.2;
         sound.play();

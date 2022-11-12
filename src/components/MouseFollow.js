@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import emptySound from "../sounds/empty-shot.mp3";
+import shotgunSound from "../sounds/shotgun.mp3";
 
 const FIRING_TIME = 100;
 
@@ -47,7 +49,7 @@ const MouseFollow = ({
           fire();
           setScore(score - 10);
         } else if (playSound) {
-          var sound = new Audio("./sounds/empty-shot.mp3");
+          var sound = new Audio(emptySound);
           sound.currentTime = 0;
           sound.volume = 0.35;
           sound.play();
@@ -62,7 +64,7 @@ const MouseFollow = ({
       setOldAmmo(ammo);
       if (ammo < oldAmmo) {
         if (playSound) {
-          var sound = new Audio("./sounds/shotgun.mp3");
+          var sound = new Audio(shotgunSound);
           sound.currentTime = 0;
           sound.volume = 0.2;
           sound.play();
